@@ -1,9 +1,13 @@
-# Arbitrary waveform generator for Rasberry Pi Pico
-# Requires 8-bit R2R DAC on pins 0-7. Works for R=2k2Ohm
+# Arbitrary waveform generator for Raspberry Pi Pico
+# Requires 8-bit R2R DAC on pins GP0-GP7. Works for R=2k2Ohm
 # Achieves 125Msps when running 125MHz clock
 # Based on AWG by Rolf Oldeman, 7/2/2021. CC BY-NC-SA 4.0 licence
 # Modified for simpler awg, using rotary encoder switches and a small OLED display for control
 # T.D.Fillary 20-03-22
+# Rotary encoder 1 (waveform) connections switch GP26, DT GP27, clock GP28
+# Rotary encoder 2 (multiplier) connections switch GP20, DT GP21, clock GP22
+# I2C display connections SDA GP16, SCL GP17
+
 from machine import Pin, mem32, Timer, I2C, freq
 from rp2 import PIO, StateMachine, asm_pio
 from array import array
@@ -155,7 +159,7 @@ startDMA(wave,int(nsamp/4))
 
 #processor free to do anything else
 
-# Init I2C using pins GP8 & GP9 (default I2C0 pins)
+# Init I2C using pins GP16 & GP17 (default I2C0 pins)
 i2c = I2C(0, scl=Pin(17), sda=Pin(16), freq=200000)
 
 # Display device address
